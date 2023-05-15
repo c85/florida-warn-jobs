@@ -93,20 +93,19 @@ def filter_results(company_list):
             "PDF Attachment: " + filtered_df.loc[i, 'FILENAME'] + "\n")
         return alert_msg, filtered_row_count
 
-def send_email(receiver_email, body):
+def send_email(sender_email, receiver_email, body):
     if filtered_row_count == 0:
         print(f"Returned {filtered_row_count} record(s), no matches found.")
     else:
         print(f"Returned {filtered_row_count} record(s) that matched, please review!")
         msg = MIMEText(body)
         msg['Subject'] = "FloridaJobs WARN Alert"
-        msg['From'] = 'ccmartin@gmail.com'
+        msg['From'] = sender_email
         msg['To'] = receiver_email
         msg['X-Priority'] = '1'
 
         smtp_server = "smtp.gmail.com"
         port = 587
-        sender_email = email_sender
         password = gmail_pass
 
         try:
@@ -156,6 +155,6 @@ if response.status_code == 200:
     company_list = ['university of miami', 'uhealth', 'nicklaus'] # leave blank to output all records
     alert_msg, filtered_row_count = filter_results(company_list)
     alert_msg = '\n'.join(alert_msg)
-    send_email('ccmartin@gmail.com', alert_msg)
+    send_email(email_sender, email_recipient, alert_msg)
 else:
     print("Error: unable to retrieve data.")
