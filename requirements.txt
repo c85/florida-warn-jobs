@@ -1,0 +1,7 @@
+requests
+bs4
+pandas
+datetime
+os
+smtplib
+email.mime.text
