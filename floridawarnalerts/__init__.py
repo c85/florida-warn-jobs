@@ -160,18 +160,25 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 else:
                     logging.error("Error: unable to retrieve data.")
             df = pd.concat(dfs, ignore_index=True)
-
-        company_list = ['university of miami', 'uhealth', 'nicklaus'] # leave blank to output all records
-        alert_msg, filtered_row_count = filter_results(df, company_list)
-        alert_msg = '\n'.join(alert_msg)
-        send_email(filtered_row_count, email_sender, email_recipient, alert_msg)
+        try:
+            company_list = ['university of miami', 'uhealth', 'nicklaus'] # leave blank to output all records
+            alert_msg, filtered_row_count = filter_results(df, company_list)
+            alert_msg = '\n'.join(alert_msg)
+            send_email(filtered_row_count, email_sender, email_recipient, alert_msg)
+            name = True
+        except Exception as e:
+            logging.error(f"Error: {e}")
     else:
         logging.error("Error: unable to retrieve data.")
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
+    if filtered_row_count == 0:
+        logging.info()
     else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+        logging.info()
+
+    if name is True and filtered_row_count == 0:
+        return func.HttpResponse(f"Returned {filtered_row_count} record(s), no matches found.")
+    elif name is True and filtered_row_count > 0:
+        return func.HttpResponse(f"Returned {filtered_row_count} record(s) that matched, please review!")
+    else:
+        return func.HttpResponse("Something went wrong, please check the logs for more details.")
