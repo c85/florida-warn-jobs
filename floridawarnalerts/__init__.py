@@ -171,11 +171,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     else:
         logging.error("Error: unable to retrieve data.")
 
-    if filtered_row_count == 0:
-        logging.info()
-    else:
-        logging.info()
-
     if name is True and filtered_row_count == 0:
         return func.HttpResponse(f"Returned {filtered_row_count} record(s), no matches found.")
     elif name is True and filtered_row_count > 0:
