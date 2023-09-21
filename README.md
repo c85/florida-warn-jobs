@@ -12,6 +12,6 @@ The Florida WARN Jobs Scraper is a Streamlit application designed to scrape the 
 
 ## How to Use
 1. Search: Input the company name(s) you want to search for in the "Search company name" text box. You can enter multiple company names separated by commas.
-* Note: You can leave the input blank to get all the available records.
+* *Note: You can leave the input blank to get all the available records.*
 2. Fetch Data: Click the "Search" button to fetch and display the filtered data.
 3. Download: Use the "Download" button to download the filtered data as a CSV file.
